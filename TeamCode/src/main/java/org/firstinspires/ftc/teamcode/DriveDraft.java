@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="OpModeExampleClass", group="Linear OpMode")
-public class OpModeTemplate extends LinearOpMode {
+@TeleOp(name="Draft: Robot Controller", group="Draft")
+public class DriveDraft extends LinearOpMode {
     //Motor Setup Pt.1
     private DcMotor         backLeft  = null;
     private DcMotor         backRight   = null;
