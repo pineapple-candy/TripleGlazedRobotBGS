@@ -58,8 +58,8 @@ public class DriveDraft extends LinearOpMode {
         //Motor Setup Pt.2
         backLeft  = hardwareMap.get(DcMotor.class, "BackLeft");
         backRight = hardwareMap.get(DcMotor.class, "BackRight");
-        frontLeft  = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        frontLeft  = hardwareMap.get(DcMotor.class, "FrontLeft");
+        frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
@@ -72,9 +72,9 @@ public class DriveDraft extends LinearOpMode {
 
             //Calculate and assign the speeds
             frontLeftSpeed = drive + turn + strafe;
-            frontRightSpeed = drive + turn - strafe;
+            frontRightSpeed = drive - turn - strafe;
             backLeftSpeed = drive + turn - strafe;
-            backRightSpeed = drive + turn + strafe;
+            backRightSpeed = drive - turn + strafe;
 
             //Cap the variables to avoid saturation and keep the ratio of movement
             float maxSpeed1 = Math.max(frontLeftSpeed, frontRightSpeed);
@@ -89,10 +89,10 @@ public class DriveDraft extends LinearOpMode {
                 backRightSpeed = backLeftSpeed / maxSpeed;
             }
             //Set MotorSpeeds
-            backLeft.setPower(backLeftSpeed);
-            backRight.setPower(backRightSpeed);
-            frontLeft.setPower(frontLeftSpeed);
-            frontRight.setPower(frontRightSpeed);
+            backLeft.setPower(backLeftSpeed/2);
+            backRight.setPower(backRightSpeed/2);
+            frontLeft.setPower(frontLeftSpeed/2);
+            frontRight.setPower(frontRightSpeed/2);
 
 
         }
