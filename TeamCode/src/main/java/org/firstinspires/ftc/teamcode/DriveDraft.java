@@ -49,6 +49,8 @@ public class DriveDraft extends LinearOpMode {
     private DcMotor         frontLeft  = null;
     private DcMotor         frontRight   = null;
 
+    //instantise the speed variables
+    private float frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed;
 
 
     @Override
@@ -61,36 +63,41 @@ public class DriveDraft extends LinearOpMode {
 
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
+        waitForStart();
         while(opModeIsActive())   {
             //Calculate motor speed based off controller input
-            double drive = gamepad1.left_stick_y/2;
-            double turn = gamepad1.right_stick_x/2;
+            float drive = gamepad1.left_stick_y;
+            float turn = gamepad1.right_stick_x;
+            float strafe = gamepad1.left_stick_x;
 
-            frontLeft.setPower(drive - turn);
-            backLeft.setPower(drive - turn);
-            frontRight.setPower(drive + turn);
-            backRight.setPower(drive + turn);
+            //Calculate and assign the speeds
+            frontLeftSpeed = drive + turn + strafe;
+            frontRightSpeed = drive + turn - strafe;
+            backLeftSpeed = drive + turn - strafe;
+            backRightSpeed = drive + turn + strafe;
 
+            //Cap the variables to avoid saturation and keep the ratio of movement
+            float maxSpeed1 = Math.max(frontLeftSpeed, frontRightSpeed);
+            float maxSpeed2 = Math.max(backLeftSpeed, backRightSpeed);
+            float maxSpeed = Math.max(maxSpeed1, maxSpeed2);
 
-            if(gamepad1.a) {
-                GoForwardThreeSeconds();
+            //Divide to keep the ratio
+            if (maxSpeed > 1) {
+                frontLeftSpeed = frontLeftSpeed / maxSpeed;
+                frontRightSpeed = frontRightSpeed / maxSpeed;
+                backLeftSpeed = backLeftSpeed / maxSpeed;
+                backRightSpeed = backLeftSpeed / maxSpeed;
             }
-            //Set Speed for 3 seconds
+            //Set MotorSpeeds
+            backLeft.setPower(backLeftSpeed);
+            backRight.setPower(backRightSpeed);
+            frontLeft.setPower(frontLeftSpeed);
+            frontRight.setPower(frontRightSpeed);
 
-
-            //set motorspeed
 
         }
 
-        GoForwardThreeSeconds();
     }
-    public void GoForwardThreeSeconds() {
-        runtime.reset();
-        while(runtime.seconds() < 3) {
-            frontLeft.setPower(1);
-            frontRight.setPower(1);
-            backLeft.setPower(1);
-            backRight.setPower(1);
-        }
-    }
+
+
 }
