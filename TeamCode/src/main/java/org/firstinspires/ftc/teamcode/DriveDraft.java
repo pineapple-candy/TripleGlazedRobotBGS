@@ -58,7 +58,7 @@ public class DriveDraft extends LinearOpMode {
 
     //instantise the speed variables
     private float frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed;
-
+    private float SpeedMax = 1;
 
     @Override
     public void runOpMode() {
@@ -93,17 +93,17 @@ public class DriveDraft extends LinearOpMode {
             float maxSpeed = Math.max(maxSpeed1, maxSpeed2);
 
             //Divide to keep the ratio
-            if (maxSpeed > 1) {
+            if (maxSpeed > SpeedMax) {
                 frontLeftSpeed = frontLeftSpeed / maxSpeed;
                 frontRightSpeed = frontRightSpeed / maxSpeed;
                 backLeftSpeed = backLeftSpeed / maxSpeed;
                 backRightSpeed = backLeftSpeed / maxSpeed;
             }
             //Set MotorSpeeds
-            backLeft.setPower(backLeftSpeed/2);
-            backRight.setPower(backRightSpeed/2);
-            frontLeft.setPower(frontLeftSpeed/2);
-            frontRight.setPower(frontRightSpeed/2);
+            backLeft.setPower(backLeftSpeed);
+            backRight.setPower(backRightSpeed);
+            frontLeft.setPower(frontLeftSpeed);
+            frontRight.setPower(frontRightSpeed);
 
             if (gamepad1.dpad_down){
                 myVisionPortal.stopStreaming();
