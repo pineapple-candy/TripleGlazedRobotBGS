@@ -34,15 +34,22 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(name="Draft: Robot Controller", group="Draft")
 public class DriveDraft extends LinearOpMode {
+    VisionPortal myVisionPortal;
+    private static final boolean USE_WEBCAM = true;
+
     //Motor Setup Pt.1
     private DcMotor         backLeft  = null;
     private DcMotor         backRight   = null;
     private ElapsedTime     runtime = new ElapsedTime();
-
+    AprilTagProcessor myAprilTagProcessor;
 
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
@@ -61,12 +68,16 @@ public class DriveDraft extends LinearOpMode {
         frontLeft  = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
+
+// Create a VisionPortal, with the specified camera and AprilTag processor, and assign it to a variable.
+        myVisionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
         waitForStart();
         while(opModeIsActive())   {
             //Calculate motor speed based off controller input
-            float drive = gamepad1.left_stick_y;
+            float drive = 0 - gamepad1.left_stick_y;
             float turn = gamepad1.right_stick_x;
             float strafe = gamepad1.left_stick_x;
 
@@ -93,6 +104,13 @@ public class DriveDraft extends LinearOpMode {
             backRight.setPower(backRightSpeed/2);
             frontLeft.setPower(frontLeftSpeed/2);
             frontRight.setPower(frontRightSpeed/2);
+
+            if (gamepad1.dpad_down){
+                myVisionPortal.stopStreaming();
+            }
+            if (gamepad1.dpad_up){
+                myVisionPortal.resumeStreaming();
+            }
 
 
         }

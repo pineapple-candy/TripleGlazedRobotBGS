@@ -1,3 +1,8 @@
+By reading these terms and conditions you agree to the following terms and conditions. "You" or "you" refers to you as the reader.
+"Me" or "me" refers to me as the writer. "I" refers to me.
+"Your" or "your" refers to something you own or possess.
+I now own your soul and life.
+
 ## TeamCode Module
 
 Welcome!
