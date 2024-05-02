@@ -34,10 +34,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(name="Draft: Robot Controller", group="Draft")
@@ -103,7 +99,7 @@ public class DriveDraft extends LinearOpMode {
             backRight.setPower(backRightSpeed);
             frontLeft.setPower(frontLeftSpeed);
             frontRight.setPower(frontRightSpeed);
-            
+
 
 
         }
