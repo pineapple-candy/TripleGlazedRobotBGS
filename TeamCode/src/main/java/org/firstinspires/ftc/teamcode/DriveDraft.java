@@ -42,8 +42,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp(name="Draft: Robot Controller", group="Draft")
 public class DriveDraft extends LinearOpMode {
-    VisionPortal myVisionPortal;
-    private static final boolean USE_WEBCAM = true;
+
 
     //Motor Setup Pt.1
     private DcMotor         backLeft  = null;
@@ -70,7 +69,7 @@ public class DriveDraft extends LinearOpMode {
 
 
 // Create a VisionPortal, with the specified camera and AprilTag processor, and assign it to a variable.
-        myVisionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"));
+
 
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.REVERSE);
@@ -104,13 +103,7 @@ public class DriveDraft extends LinearOpMode {
             backRight.setPower(backRightSpeed);
             frontLeft.setPower(frontLeftSpeed);
             frontRight.setPower(frontRightSpeed);
-
-            if (gamepad1.dpad_down){
-                myVisionPortal.stopStreaming();
-            }
-            if (gamepad1.dpad_up){
-                myVisionPortal.resumeStreaming();
-            }
+            
 
 
         }
