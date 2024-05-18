@@ -44,7 +44,7 @@ public class DriveDraft extends LinearOpMode {
     private DcMotor         backLeft  = null;
     private DcMotor         backRight   = null;
     private ElapsedTime     runtime = new ElapsedTime();
-    AprilTagProcessor myAprilTagProcessor;
+
 
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
@@ -53,29 +53,34 @@ public class DriveDraft extends LinearOpMode {
 
     //instantise the speed variables
     private float frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed;
-    private float SpeedMax = 1;
+    private float SpeedMax = 0.667f;
+
 
     @Override
     public void runOpMode() {
         //Motor Setup Pt.2
-        backLeft  = hardwareMap.get(DcMotor.class, "BackLeft");
-        backRight = hardwareMap.get(DcMotor.class, "BackRight");
-        frontLeft  = hardwareMap.get(DcMotor.class, "FrontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        backLeft  = hardwareMap.get(DcMotor.class, "3");
+        backRight = hardwareMap.get(DcMotor.class, "2");
+        frontLeft  = hardwareMap.get(DcMotor.class, "1");
+        frontRight = hardwareMap.get(DcMotor.class, "0");
 
 
-// Create a VisionPortal, with the specified camera and AprilTag processor, and assign it to a variable.
 
 
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+
         waitForStart();
         while(opModeIsActive())   {
             //Calculate motor speed based off controller input
-            float drive = 0 - gamepad1.left_stick_y;
-            float turn = gamepad1.right_stick_x;
-            float strafe = gamepad1.left_stick_x;
+            float drive = -gamepad1.left_stick_y * SpeedMax;
+            float turn = -gamepad1.right_stick_x * SpeedMax;
+            float strafe = gamepad1.left_stick_x * SpeedMax;
+            if (gamepad1.right_bumper) {
+                SpeedMax = 1f;
 
+            } else {
+                SpeedMax = 0.667f;
+            }
             //Calculate and assign the speeds
             frontLeftSpeed = drive + turn + strafe;
             frontRightSpeed = drive - turn - strafe;
