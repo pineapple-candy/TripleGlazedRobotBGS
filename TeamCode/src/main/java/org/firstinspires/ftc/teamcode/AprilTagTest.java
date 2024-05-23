@@ -71,18 +71,19 @@ public class AprilTagTest extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    /**
-     * The variable to store our instance of the AprilTag processor.
-     */
+
     private AprilTagProcessor aprilTag;
 
-    /**
-     * The variable to store our instance of the vision portal.
-     */
     private VisionPortal visionPortal;
+
+    private double x = 0;
+    private double y = 0;
+
 
     @Override
     public void runOpMode() {
+        // declaring variables
+
 
         initAprilTag();
 
@@ -96,6 +97,7 @@ public class AprilTagTest extends LinearOpMode {
             while (opModeIsActive()) {
 
                 telemetryAprilTag();
+                telemetry.addLine("X: " + x + ", Y: " + y);
 
                 // Push telemetry to the Driver Station.
                 telemetry.update();
@@ -201,8 +203,12 @@ public class AprilTagTest extends LinearOpMode {
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-            } 
+
+                x = 75 + ((Math.sin(detection.ftcPose.yaw))*(detection.ftcPose.range)*0.39);
+                y = 23.5 + ((Math.cos(detection.ftcPose.yaw))*(detection.ftcPose.range)*0.39);
+            }
         }   // end for() loop
+
 
         // Add "key" information to telemetry
         telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
