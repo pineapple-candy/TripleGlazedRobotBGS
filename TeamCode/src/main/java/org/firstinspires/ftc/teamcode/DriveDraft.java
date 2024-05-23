@@ -75,7 +75,7 @@ public class DriveDraft extends LinearOpMode {
             float drive = -gamepad1.left_stick_y * SpeedMax;
             float turn = -gamepad1.right_stick_x * SpeedMax;
             float strafe = gamepad1.left_stick_x * SpeedMax;
-            if (gamepad1.right_bumper) {
+            if (gamepad1.right_stick_button) {
                 SpeedMax = 1f;
 
             } else {
