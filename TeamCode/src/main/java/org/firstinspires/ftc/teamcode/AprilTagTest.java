@@ -204,8 +204,8 @@ public class AprilTagTest extends LinearOpMode {
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
 
-                x = 75 + ((Math.sin(detection.ftcPose.yaw))*(detection.ftcPose.range)*0.39);
-                y = 23.5 + ((Math.cos(detection.ftcPose.yaw))*(detection.ftcPose.range)*0.39);
+                x = 75 + ((Math.sin(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
+                y = 23.5 + ((Math.cos(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
             }
         }   // end for() loop
 
