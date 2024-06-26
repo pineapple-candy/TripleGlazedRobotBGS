@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class ControllerIMU {
     private static IMU imu = null;
-    
+
     private static double offset;
 
     public static void initIMU(IMU imuArg, double givenOffset) { //< --  hardwareMap.get(IMU.class, "imu");
