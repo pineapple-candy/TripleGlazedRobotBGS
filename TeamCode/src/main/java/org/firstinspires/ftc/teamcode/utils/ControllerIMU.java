@@ -8,9 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class ControllerIMU {
     private static IMU imu = null;
-
-    public static double adjustedYaw;
-
+    
     private static double offset;
 
     public static void initIMU(IMU imuArg, double givenOffset) { //< --  hardwareMap.get(IMU.class, "imu");
