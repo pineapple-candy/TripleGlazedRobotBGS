@@ -8,4 +8,12 @@ public class Util {
     public static double toDeg(double radians) {
         return Math.toDegrees(radians);
     }
+
+    public static double toCM(double inches) {
+        return inches * 2.54;
+    }
+
+    public static double toIn(double cm) {
+        return cm / 2.54;
+    }
 }

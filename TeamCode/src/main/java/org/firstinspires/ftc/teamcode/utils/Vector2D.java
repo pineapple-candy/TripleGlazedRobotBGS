@@ -13,7 +13,6 @@ public class Vector2D {
     public Vector2D(double valOne, double valTwo, boolean isCart) {
         if (isCart) {
             // If Cartesian is true, valOne is 'x' and valTwo is 'y'
-
             m = Math.sqrt((valOne*valOne) + (valTwo*valTwo));
             d = Util.toDeg(Math.atan2(valOne,valTwo));
         } else {
@@ -26,6 +25,7 @@ public class Vector2D {
     Vector2D add adds the current vector to the vector passed as an argument.
     Returns another vectors that is the sum of the two vectors.
      */
+
     public Vector2D add(Vector2D vec) {
         double newX = this.getX() + vec.getX();
         double newY = this.getY() + vec.getY();

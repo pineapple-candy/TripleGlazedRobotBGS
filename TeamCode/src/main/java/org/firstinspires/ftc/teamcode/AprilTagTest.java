@@ -30,16 +30,27 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import android.util.Size;
+
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.utils.Vector2D;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+
 
 /*
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,
@@ -76,14 +87,22 @@ public class AprilTagTest extends LinearOpMode {
 
     private VisionPortal visionPortal;
 
-    private double x = 0;
-    private double y = 0;
+    HashMap<Integer, Vector2D> aprilTags = new HashMap<>();
 
+    private IMU imu = null;
+
+    private double adjustedYaw;
 
     @Override
     public void runOpMode() {
         // declaring variables
 
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         initAprilTag();
 
@@ -93,12 +112,18 @@ public class AprilTagTest extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        //change IMU to reflect True North
+        imu.resetYaw();
+        adjustedYaw = getHeading() + 90;
+
+
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                adjustedYaw = getHeading() + 90;
 
-                telemetryAprilTag();
-                telemetry.addLine("X: " + x + ", Y: " + y);
+                Vector2D vector = telemetryAprilTag();
 
+                telemetry.addLine("Coordinate: " + vector);
                 // Push telemetry to the Driver Station.
                 telemetry.update();
 
@@ -123,6 +148,12 @@ public class AprilTagTest extends LinearOpMode {
      * Initialize the AprilTag processor.
      */
     private void initAprilTag() {
+
+        aprilTags.put(1,new Vector2D(43,100,true));
+        aprilTags.put(2,new Vector2D(22,103,true));
+        aprilTags.put(3,new Vector2D(234,30,true));
+
+        //only works when facing certain direction
 
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
@@ -191,21 +222,34 @@ public class AprilTagTest extends LinearOpMode {
     /**
      * Add telemetry about AprilTag detections.
      */
-    private void telemetryAprilTag() {
+    private Vector2D telemetryAprilTag() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            if ((detection.metadata != null) && (detection.id == 4)) {
+            if ((detection.metadata != null) && aprilTags.containsKey(detection.id)) {
 
                 telemetry.addLine(String.format("\n==== (ID %d)", detection.id));
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
 
-                x = 75 + ((Math.sin(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
-                y = 23.5 + ((Math.cos(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
+                Vector2D aprilTagVec = aprilTags.get(detection.id); // april tag one
+
+                double m = detection.ftcPose.range;
+                double d = adjustedYaw - detection.ftcPose.bearing;
+
+                Vector2D currentVec = new Vector2D(m,d,false);
+                currentVec.add(aprilTagVec);
+
+                return currentVec;
+
+                //x = 75 + ((Math.sin(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
+                //y = 23.5 + ((Math.cos(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
+                
+            } else {
+                return new Vector2D(0,0,false);
             }
         }   // end for() loop
 
@@ -217,4 +261,8 @@ public class AprilTagTest extends LinearOpMode {
 
     }   // end method telemetryAprilTag()
 
-}   // end class
+    public double getHeading() {
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        return orientation.getYaw(AngleUnit.DEGREES);
+    }
+}
