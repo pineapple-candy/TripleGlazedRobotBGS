@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,8 +34,15 @@ public class LinearSlides {
         slideMotor.setPower(output);
     }
 
-    public static void setTarget(double target) {
+    private static void setTarget(double target) {
         pid.setSetPoint(target);
+    }
+
+    public static void setActive(boolean target) {
+        if (gamepad1.left_bumper) {
+            LinearSlides.setTarget(2000); // top or smthn
+        }
+        LinearSlides.updateSlide();
     }
 
 }
