@@ -21,23 +21,30 @@ public class Main extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        ControllerIMU.initIMU(hardwareMap.get(IMU.class,"imu"), 90);
+        //webcamOne = new CameraController(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        webcamOne = new CameraController(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
+        //ControllerIMU.initIMU(hardwareMap.get(IMU.class,"imu"), 90);
         LinearSlides.initialiseSlide(hardwareMap.get(DcMotor.class,"L1"));
+        MecanumDrive.initialiseMotors(
+                hardwareMap.get(DcMotor.class,"BackLeft"),
+                hardwareMap.get(DcMotor.class,"FrontLeft"),
+                hardwareMap.get(DcMotor.class,"FrontRight"),
+                hardwareMap.get(DcMotor.class,"BackRight")
+                );
 
         waitForStart();
 
-        ControllerIMU.resetIMU();
+        //ControllerIMU.resetIMU();
+        LinearSlides.resetEncoder();
 
         while (opModeIsActive()) {
             MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
-            ControllerIMU.getAdjustedHeading();
-            LinearSlides.setActive(gamepad1.left_bumper);
+            //ControllerIMU.getAdjustedHeading();
+
+            LinearSlides.setActive(gamepad1.left_bumper, gamepad1.right_stick_y);
+            LinearSlides.resetEncoder(gamepad1.right_bumper);
         }
 
     }
 
 }
-// make sure you do camer athingy

@@ -5,13 +5,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class MecanumDrive {
 
     private static double speedConstant = 0.7;
-
     private static DcMotor leftBack;
     private static DcMotor leftFront;
     private static DcMotor rightFront;
     private static DcMotor rightBack;
 
-    public static void initialiseMotors(DcMotor AleftBack, DcMotor AleftFront, DcMotor ArightFront, DcMotor ArightBack, ) {
+    public static void initialiseMotors(DcMotor AleftBack, DcMotor AleftFront, DcMotor ArightFront, DcMotor ArightBack) {
         leftBack = AleftBack;
         leftFront = AleftFront;
         rightBack = ArightBack;
@@ -47,10 +46,10 @@ public class MecanumDrive {
                 rightBackPower /= power - turn;
             }
 
-            leftFront.setPower(leftFrontPower);
-            rightFront.setPower(rightFrontPower);
-            leftBack.setPower(leftBackPower);
-            rightBack.setPower(rightBackPower);
+            leftFront.setPower(leftFrontPower*speedConstant);
+            rightFront.setPower(rightFrontPower*speedConstant);
+            leftBack.setPower(leftBackPower*speedConstant);
+            rightBack.setPower(rightBackPower*speedConstant);
         }
     }
 }
