@@ -13,7 +13,7 @@ public class LinearSlides {
 
     private static final DcMotor.Direction Direction = DcMotor.Direction.REVERSE;
 
-    private static PIDController pid = new PIDController(1,0,0);
+    private static PIDController pid = new PIDController(0.62,0.01,0.03);
 
     private static DcMotor slideMotor;
 
@@ -48,8 +48,8 @@ public class LinearSlides {
             slideMotor.setPower(-0.3*slideY);
         }
 
-        telemetry.addLine("Slide Position: " + slideMotor.getCurrentPosition());
-        telemetry.update();
+        //telemetry.addLine("Slide Position: " + slideMotor.getCurrentPosition());
+        //telemetry.update();
     }
 
     public static void resetEncoder(boolean rightBumper) {// <-- testing only
