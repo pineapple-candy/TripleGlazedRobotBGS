@@ -47,9 +47,6 @@ public class LinearSlides {
         } else {
             slideMotor.setPower(-0.3*slideY);
         }
-
-        //telemetry.addLine("Slide Position: " + slideMotor.getCurrentPosition());
-        //telemetry.update();
     }
 
     public static void resetEncoder(boolean rightBumper) {// <-- testing only
