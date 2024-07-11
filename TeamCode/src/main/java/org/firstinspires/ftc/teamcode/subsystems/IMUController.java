@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-public class ControllerIMU {
+public class IMUController {
     private static IMU imu = null;
 
     private static double offset;
