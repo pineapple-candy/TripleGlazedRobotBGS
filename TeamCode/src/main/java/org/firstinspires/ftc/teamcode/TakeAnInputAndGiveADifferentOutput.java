@@ -11,7 +11,7 @@ public class TakeAnInputAndGiveADifferentOutput {
     static int Suffering = 0;
 
     private static void getALife(int headaches, int childhoodTraumas, int optimism) {
-        Suffering += 0.25 * headaches;
+        Suffering += headaches;
         Suffering += childhoodTraumas;
         Suffering /= optimism;
     }
@@ -22,7 +22,16 @@ public class TakeAnInputAndGiveADifferentOutput {
         System.out.println("Suffering: " + Suffering);
     }
 
+    private static void sadGuy() {
+        getALife(15,3,2);
 
+        System.out.println("Suffering: " + Suffering);
+    }
 
+    private static void thatOneGuy() {
+        getALife(0,9999999,500000);
+
+        System.out.println("Suffering: " + Suffering);
+    }
 
 }
