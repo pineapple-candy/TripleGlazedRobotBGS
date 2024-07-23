@@ -16,10 +16,10 @@ import java.util.List;
 
 public class CameraController {
 
-    private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
+    private static AprilTagProcessor aprilTag;
+    private static VisionPortal visionPortal;
 
-    HashMap<Integer, Vector2D> aprilTags = new HashMap<>();
+    static HashMap<Integer, Vector2D> aprilTags = new HashMap<>();
 
     public CameraController(WebcamName Camera) { // e.g., camera may be hardwareMap.get(WebcamName.class, "Webcam 1")
         aprilTags.put(1,new Vector2D(43,100,true));
@@ -40,7 +40,7 @@ public class CameraController {
 
     }
 
-    public Vector2D processAprilTags(double adjustedYaw) {
+    public static Vector2D processAprilTags(double adjustedYaw) {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
         telemetry.addData("# AprilTags Detected", currentDetections.size());
 
@@ -48,10 +48,10 @@ public class CameraController {
         for (AprilTagDetection detection : currentDetections) {
             if ((detection.metadata != null) && aprilTags.containsKey(detection.id)) {
 
-                telemetry.addLine(String.format("\n==== (ID %d)", detection.id));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+//                telemetry.addLine(String.format("\n==== (ID %d)", detection.id));
+//                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+//                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+//                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
 
                 Vector2D aprilTagVec = aprilTags.get(detection.id); // april tag one
 
@@ -63,8 +63,6 @@ public class CameraController {
 
                 return currentVec;
 
-                //x = 75 + ((Math.sin(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
-                //y = 23.5 + ((Math.cos(detection.ftcPose.bearing))*(detection.ftcPose.range)*0.39);
 
             } else {
                 return new Vector2D(0,0,false);
@@ -72,9 +70,9 @@ public class CameraController {
         }   // end for() loop
 
         // Add "key" information to telemetry
-        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-        telemetry.addLine("RBE = Range, Bearing & Elevation");
+//        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+//        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+//        telemetry.addLine("RBE = Range, Bearing & Elevation");
 
         return null;
     }
