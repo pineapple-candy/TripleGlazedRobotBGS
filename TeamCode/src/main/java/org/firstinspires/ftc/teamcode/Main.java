@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CameraController;
 import org.firstinspires.ftc.teamcode.subsystems.IMUController;
 import org.firstinspires.ftc.teamcode.subsystems.LinearSlides;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.utils.Util;
 import org.firstinspires.ftc.teamcode.subsystems.ArmController;
 
 
@@ -41,10 +42,10 @@ public class  Main extends LinearOpMode {
                 hardwareMap.get(DcMotor.class,"Y"), // Front Right
                 hardwareMap.get(DcMotor.class,"A") // Back Right
                 );
-//        ArmController.initialiseArmServo(
-//                hardwareMap.get(CRServo.class,"CR1"),
-//                hardwareMap.get(CRServo.class,"CR2")
-//                );
+        ArmController.initialiseArmServo(
+                hardwareMap.get(CRServo.class,"CR1"),
+                hardwareMap.get(CRServo.class,"CR2")
+                );
 
         waitForStart();
 
@@ -58,7 +59,7 @@ public class  Main extends LinearOpMode {
             //ControllerIMU.getAdjustedHeading();
             LinearSlides.setActive(gamepad1.left_bumper, gamepad1.right_stick_y);
             LinearSlides.resetEncoder(gamepad1.right_bumper);
-            //ArmController.armSuck(gamepad1.a,gamepad2.b);
+            ArmController.armSuck(gamepad1.a,gamepad1.b);
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
 
 

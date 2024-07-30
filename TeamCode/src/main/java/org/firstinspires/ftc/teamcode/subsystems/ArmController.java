@@ -13,10 +13,11 @@ public class ArmController {
     }
 
     public static void armSuck(boolean aButton, boolean bButton) {
+        // right servo is good
         if (aButton) {
             leftServo.setPower(1);
             rightServo.setPower(-1);
-        } else if (bButton) {
+        }else if (bButton) {
             leftServo.setPower(-1);
             rightServo.setPower(1);
         } else {

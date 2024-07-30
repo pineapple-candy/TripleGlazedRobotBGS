@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.teamcode.utils.Util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MecanumDrive {
 
-    private static double speedConstant = 0.7;
+    private final static double speedConstant =0.7;
     private static DcMotor leftBack;
     private static DcMotor leftFront;
     private static DcMotor rightFront;
@@ -25,34 +29,27 @@ public class MecanumDrive {
         rightBack.setDirection(  DcMotorSimple.Direction.REVERSE);
     }
 
-    public static void runMotors(double y, double x, double turn) {
-        if ((Math.abs(x) > 0.05) || (Math.abs(y) > 0.05) || (Math.abs(turn) > 0.05)) {
+    public static void runMotors(double Ay, double Ax, double Aturn) {
+        if ((Math.abs(Ax) > 0.05) || (Math.abs(Ay) > 0.05) || (Math.abs(Aturn) > 0.05)) {
 
-            double theta = Math.atan2(y, x) * 180/Math.PI; // aka angle
+            double y = -Ay; // Remember, Y stick value is reversed
+            double x = Ax * 1.1; // Counteract imperfect strafing
+            double rx = Aturn;
 
-            double power = Math.hypot(x, y);
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
-            double sin = Math.sin((theta * (Math.PI / 180)) - (Math.PI / 4)); // convert radians into degrees (superior measurement)
-            double cos = Math.cos((theta * (Math.PI / 180)) - (Math.PI / 4));
-            double maxSinCos = Math.max(Math.abs(sin), Math.abs(cos)); // getting max
+            leftFront.setPower(frontLeftPower);
+            leftBack.setPower(backLeftPower);
+            rightFront.setPower(frontRightPower);
+            rightBack.setPower(backRightPower);
 
-            double leftFrontPower = (power * cos / maxSinCos + turn);
-            double rightFrontPower = (power * sin / maxSinCos - turn);
-            double leftBackPower = (power * sin / maxSinCos + turn);
-            double rightBackPower = (power * cos / maxSinCos - turn);
-
-
-            if ((power + Math.abs(turn)) > 1) {
-                leftFrontPower /= power + turn;
-                rightFrontPower /= power - turn;
-                leftBackPower /= power + turn;
-                rightBackPower /= power - turn;
-            }
-
-            leftFront.setPower(leftFrontPower*speedConstant);
-            rightFront.setPower(rightFrontPower*speedConstant);
-            leftBack.setPower(leftBackPower*speedConstant);
-            rightBack.setPower(rightBackPower*speedConstant);
         } else {
             leftFront.setPower(0);
             rightFront.setPower(0);
