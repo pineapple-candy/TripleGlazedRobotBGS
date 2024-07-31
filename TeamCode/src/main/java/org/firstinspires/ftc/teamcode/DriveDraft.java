@@ -59,10 +59,10 @@ public class DriveDraft extends LinearOpMode {
     @Override
     public void runOpMode() {
         //Motor Setup Pt.2
-        backLeft  = hardwareMap.get(DcMotor.class, "3");
-        backRight = hardwareMap.get(DcMotor.class, "2");
-        frontLeft  = hardwareMap.get(DcMotor.class, "1");
-        frontRight = hardwareMap.get(DcMotor.class, "0");
+        backLeft  = hardwareMap.get(DcMotor.class, "B");
+        backRight = hardwareMap.get(DcMotor.class, "A");
+        frontLeft  = hardwareMap.get(DcMotor.class, "C");
+        frontRight = hardwareMap.get(DcMotor.class, "D");
 
 
 
