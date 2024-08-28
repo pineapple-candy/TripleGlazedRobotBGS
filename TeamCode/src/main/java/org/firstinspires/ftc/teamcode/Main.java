@@ -37,10 +37,10 @@ public class  Main extends LinearOpMode {
         // X Back Left, don't need to reverse
         // Y Front Right, don't need to reverse
         MecanumDrive.initialiseMotors(
-                hardwareMap.get(DcMotor.class,"X"), // Back Left
-                hardwareMap.get(DcMotor.class,"B"), // Front Left
-                hardwareMap.get(DcMotor.class,"Y"), // Front Right
-                hardwareMap.get(DcMotor.class,"A") // Back Right
+                hardwareMap.get(DcMotor.class,"0"), // Back Left
+                hardwareMap.get(DcMotor.class,"1"), // Front Left
+                hardwareMap.get(DcMotor.class,"2"), // Front Right
+                hardwareMap.get(DcMotor.class,"3") // Back Right
                 );
         ArmController.initialiseArmServo(
                 hardwareMap.get(CRServo.class,"CR1"),
@@ -60,9 +60,9 @@ public class  Main extends LinearOpMode {
             LinearSlides.setActive(gamepad1.left_bumper, gamepad1.right_stick_y);
             LinearSlides.resetEncoder(gamepad1.right_bumper);
             ArmController.armSuck(gamepad1.a,gamepad1.b);
+
+
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
-
-
             telemetry.update();
         }
 
