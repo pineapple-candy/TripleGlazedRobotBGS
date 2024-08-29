@@ -16,6 +16,8 @@ public class MecanumDrive {
     private static DcMotor rightFront;
     private static DcMotor rightBack;
 
+    private static double encoderTicks = 537.6;
+
     public static void initialiseMotors(DcMotor AleftBack, DcMotor AleftFront, DcMotor ArightFront, DcMotor ArightBack) {
         leftBack = AleftBack;
         leftFront = AleftFront;
@@ -58,5 +60,52 @@ public class MecanumDrive {
             leftBack.setPower(0);
             rightBack.setPower(0);
         }
+    }
+
+
+    public static void resetMecanumEncoder() {
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public static void powerForward(double speed) {
+        leftFront.setPower(speed);
+        rightFront.setPower(speed);
+        leftBack.setPower(speed);
+        rightBack.setPower(speed);
+    }
+
+    public static void powerStop() {
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+    }
+
+    public static boolean moveForward(double cm, double speed) {
+        double circumfrence = (7.5)*(Math.PI);
+        double rotations = rightFront.getCurrentPosition()/encoderTicks;
+        double distanceTravelled = circumfrence * rotations;
+
+        if (cm - distanceTravelled >= 0) {
+            powerForward(speed);
+        } else {
+            powerStop();
+        }
+
+        return ( (distanceTravelled) >= cm );
+    }
+
+    public static String getDebug() {
+        return "LB: " + leftBack.getCurrentPosition() + " , RB: " + rightBack.getCurrentPosition() + " , LF: " + leftFront.getCurrentPosition() + " , RF: " + rightFront.getCurrentPosition();
     }
 }

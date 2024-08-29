@@ -23,13 +23,13 @@ public class  Main extends LinearOpMode {
 
     private CameraController webcamOne;
 
-    private LinearSlides slide = new LinearSlides();
+    //private LinearSlides slide = new LinearSlides();
 
     @Override
     public void runOpMode() {
         //webcamOne = new CameraController(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
         //ControllerIMU.initIMU(hardwareMap.get(IMU.class,"imu"), 90);
+
         LinearSlides.initialiseSlide(hardwareMap.get(DcMotor.class,"L1"));
 
         // 0 back left, reverse
@@ -51,22 +51,26 @@ public class  Main extends LinearOpMode {
 
         //ControllerIMU.resetIMU();
         LinearSlides.resetEncoder();
+        MecanumDrive.resetMecanumEncoder();
 
         while (opModeIsActive()) {
             //subsystems
+            //ControllerIMU.getAdjustedHeading();
+            //LinearSlides.resetEncoder(gamepad1.right_bumper);
+
 
             MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
-            //ControllerIMU.getAdjustedHeading();
             LinearSlides.setActive(gamepad1.left_bumper, -gamepad1.right_stick_y);
-            //LinearSlides.resetEncoder(gamepad1.right_bumper);
             ArmController.armSuck(gamepad1.a,gamepad1.b);
 
 
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             telemetry.addLine(LinearSlides.getDebug());
+            telemetry.addLine(MecanumDrive.getDebug());
             telemetry.update();
         }
 
     }
 
 }
+//75mm
