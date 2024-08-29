@@ -41,11 +41,26 @@ public class LinearSlides {
     }
 
     public static void setActive(boolean target, double slideY) {
+        double encoderPosition = slideMotor.getCurrentPosition();
+
         if (target) {
-            setTarget(0); // BOTTOM < initialise
+            setTarget(-840); // BOTTOM < initialise
             updateSlide();
         } else {
-            slideMotor.setPower(-0.3*slideY);
+            if (encoderPosition > 20) {
+                if (slideY > 0.05) {
+                    slideMotor.setPower(-0.33*slideY);
+                } else {
+                    slideMotor.setPower(0);
+                }
+            } else {
+                if (Math.abs(slideY) > 0.05) {
+                    slideMotor.setPower(-0.33*slideY);
+                } else {
+                    slideMotor.setPower(0);
+                }
+            }
+
         }
     }
 
@@ -59,6 +74,10 @@ public class LinearSlides {
     public static void resetEncoder() {
             slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             slideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public static String getDebug() {
+        return "Slide position: " + slideMotor.getCurrentPosition();
     }
 
 }

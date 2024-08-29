@@ -27,7 +27,8 @@ public class MecanumDrive {
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        rightBack.setDirection(  DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public static void runMotors(double Ay, double Ax, double Aturn) {
@@ -46,10 +47,10 @@ public class MecanumDrive {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            leftFront.setPower(frontLeftPower);
-            leftBack.setPower(backLeftPower);
-            rightFront.setPower(frontRightPower);
-            rightBack.setPower(backRightPower);
+            leftFront.setPower(frontLeftPower*speedConstant);
+            leftBack.setPower(backLeftPower*speedConstant);
+            rightFront.setPower(frontRightPower*speedConstant);
+            rightBack.setPower(backRightPower*speedConstant);
 
         } else {
             leftFront.setPower(0);

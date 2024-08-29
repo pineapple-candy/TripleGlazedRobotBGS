@@ -32,10 +32,10 @@ public class  Main extends LinearOpMode {
         //ControllerIMU.initIMU(hardwareMap.get(IMU.class,"imu"), 90);
         LinearSlides.initialiseSlide(hardwareMap.get(DcMotor.class,"L1"));
 
-        // A Back Right, need to reverse
-        // B Front Left. don't need to reverse
-        // X Back Left, don't need to reverse
-        // Y Front Right, don't need to reverse
+        // 0 back left, reverse
+        // 1 front left, no rev
+        // 2 front right, reverse
+        // 3 back right, no rev
         MecanumDrive.initialiseMotors(
                 hardwareMap.get(DcMotor.class,"0"), // Back Left
                 hardwareMap.get(DcMotor.class,"1"), // Front Left
@@ -57,12 +57,13 @@ public class  Main extends LinearOpMode {
 
             MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
             //ControllerIMU.getAdjustedHeading();
-            LinearSlides.setActive(gamepad1.left_bumper, gamepad1.right_stick_y);
-            LinearSlides.resetEncoder(gamepad1.right_bumper);
+            LinearSlides.setActive(gamepad1.left_bumper, -gamepad1.right_stick_y);
+            //LinearSlides.resetEncoder(gamepad1.right_bumper);
             ArmController.armSuck(gamepad1.a,gamepad1.b);
 
 
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+            telemetry.addLine(LinearSlides.getDebug());
             telemetry.update();
         }
 
