@@ -24,6 +24,10 @@ public class ArmController {
             leftServo.setPower(0);
             rightServo.setPower(0);
         }
+    }
 
+    public static void armSpit() {
+        leftServo.setPower(-1);
+        rightServo.setPower(1);
     }
 }

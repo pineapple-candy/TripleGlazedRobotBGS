@@ -36,7 +36,7 @@ public class MecanumDrive {
     }
 
     public static void runMotors(double Ay, double Ax, double Aturn, boolean XButton, boolean YButton) {
-        if (YButton && XButton) {
+        if (YButton) {
             IMUController.resetIMU();
             fieldOriented = true;
         } else if (XButton) {
@@ -112,7 +112,7 @@ public class MecanumDrive {
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public static void powerForward(double speed) {
+    public static void power(double speed) {
         leftFront.setPower(speed);
         rightFront.setPower(speed);
         leftBack.setPower(speed);
@@ -126,13 +126,13 @@ public class MecanumDrive {
         rightBack.setPower(0);
     }
 
-    public static boolean moveForward(double cm, double speed) {
+    public static boolean moveDistance(double cm, double speed) {
         double circumfrence = (7.5)*(Math.PI);
         double rotations = rightFront.getCurrentPosition()/encoderTicks;
-        double distanceTravelled = circumfrence * rotations;
+        double distanceTravelled = Math.abs(circumfrence * rotations);
 
         if (cm - distanceTravelled >= 0) {
-            powerForward(speed);
+            power(speed);
             return (true);
         } else {
             powerStop();

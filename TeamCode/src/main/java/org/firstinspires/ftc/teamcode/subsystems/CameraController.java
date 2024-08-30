@@ -19,12 +19,14 @@ public class CameraController {
     private static AprilTagProcessor aprilTag;
     private static VisionPortal visionPortal;
 
-    static HashMap<Integer, Vector2D> aprilTags = new HashMap<>();
+    static HashMap<Integer, Integer> aprilTags = new HashMap<>();
 
-    public CameraController(WebcamName Camera) { // e.g., camera may be hardwareMap.get(WebcamName.class, "Webcam 1")
-        aprilTags.put(1,new Vector2D(43,100,true));
-        aprilTags.put(2,new Vector2D(22,103,true));
-        aprilTags.put(3,new Vector2D(234,30,true));
+    private static double lastSeen = 30;
+
+    public static void initCamera(WebcamName Camera) { // e.g., camera may be hardwareMap.get(WebcamName.class, "Webcam 1")
+        aprilTags.put(0,0);
+        aprilTags.put(1,1);
+        aprilTags.put(2,2);
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
@@ -40,40 +42,31 @@ public class CameraController {
 
     }
 
-    public static Vector2D processAprilTags(double adjustedYaw) {
+    public static double processAprilTags() {
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        telemetry.addData("# AprilTags Detected", currentDetections.size());
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
             if ((detection.metadata != null) && aprilTags.containsKey(detection.id)) {
 
-//                telemetry.addLine(String.format("\n==== (ID %d)", detection.id));
-//                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-//                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-//                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+                int aprilTagNum = aprilTags.get(detection.id); // april tag one
+                lastSeen = aprilTagNum;
 
-                Vector2D aprilTagVec = aprilTags.get(detection.id); // april tag one
-
-                double m = detection.ftcPose.range;
-                double d = adjustedYaw - detection.ftcPose.bearing;
-
-                Vector2D currentVec = new Vector2D(m,d,false);
-                currentVec.add(aprilTagVec);
-
-                return currentVec;
+                return aprilTagNum;
 
 
             } else {
-                return new Vector2D(0,0,false);
+                return 30;
             }
-        }   // end for() loop
+        }
+        return 30;
+    }
 
-        // Add "key" information to telemetry
-//        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-//        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-//        telemetry.addLine("RBE = Range, Bearing & Elevation");
+    public static double getLastSeen() {
+        return lastSeen;
+    }
 
-        return null;
+    public static String getDebug() {
+        return "Last Seen Tag: " + lastSeen;
     }
 }

@@ -36,7 +36,7 @@ public class LinearSlides {
         slideMotor.setPower(output);
     }
 
-    private static void setTarget(double target) {
+    public static void setTarget(double target) {
         pid.setSetPoint(target);
     }
 
