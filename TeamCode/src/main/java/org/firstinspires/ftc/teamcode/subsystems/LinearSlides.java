@@ -48,13 +48,13 @@ public class LinearSlides {
             updateSlide();
         } else {
             if (encoderPosition > 20) {
-                if (slideY > 0.05) {
+                if (slideY > 0.25) {
                     slideMotor.setPower(-0.33*slideY);
                 } else {
                     slideMotor.setPower(0);
                 }
             } else {
-                if (Math.abs(slideY) > 0.05) {
+                if (Math.abs(slideY) > 0.25) {
                     slideMotor.setPower(-0.33*slideY);
                 } else {
                     slideMotor.setPower(0);

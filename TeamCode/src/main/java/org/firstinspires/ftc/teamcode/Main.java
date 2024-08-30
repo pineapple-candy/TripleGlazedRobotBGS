@@ -59,7 +59,7 @@ public class  Main extends LinearOpMode {
             //LinearSlides.resetEncoder(gamepad1.right_bumper);
 
 
-            MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+            MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x, gamepad1.x, gamepad1.y);
             LinearSlides.setActive(gamepad1.left_bumper, -gamepad1.right_stick_y);
             ArmController.armSuck(gamepad1.a,gamepad1.b);
 
