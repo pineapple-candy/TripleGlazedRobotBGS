@@ -119,6 +119,12 @@ public class MecanumDrive {
         rightBack.setPower(speed);
     }
 
+    public static void strafe(double speed) { // right = positive, left = negative
+        leftFront.setPower(speed);
+        rightFront.setPower(-speed);
+        leftBack.setPower(-speed);
+        rightBack.setPower(speed);
+    }
     public static void powerStop() {
         leftFront.setPower(0);
         rightFront.setPower(0);
@@ -133,6 +139,21 @@ public class MecanumDrive {
 
         if (cm - distanceTravelled >= 0) {
             power(speed);
+            return (true);
+        } else {
+            powerStop();
+            resetMecanumEncoder();
+            return (false);
+        }
+    }
+
+    public static boolean strafeDistance(double cm, double speed) {
+        double circumfrence = (7.5)*(Math.PI);
+        double rotations = rightFront.getCurrentPosition()/encoderTicks;
+        double distanceTravelled = Math.abs(circumfrence * rotations);
+
+        if (cm - distanceTravelled >= 0) {
+            strafe(speed);
             return (true);
         } else {
             powerStop();

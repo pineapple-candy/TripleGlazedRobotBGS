@@ -13,7 +13,7 @@ public class LinearSlides {
 
     private static final DcMotor.Direction Direction = DcMotor.Direction.REVERSE;
 
-    private static PIDController pid = new PIDController(0.62,0.01,0.03);
+    private static PIDController pid = new PIDController(0.62,0.4,0.04);
 
     private static DcMotor slideMotor;
 
@@ -49,12 +49,31 @@ public class LinearSlides {
         } else {
             if (encoderPosition > 20) {
                 if (slideY > 0.25) {
-                    slideMotor.setPower(-0.33*slideY);
+                    slideMotor.setPower(-0.45 * slideY);
                 } else {
                     slideMotor.setPower(0);
                 }
+            } else if (encoderPosition < -720) {
+                if (encoderPosition < -840) {
+                    if (slideY < -0.25) {
+                        slideMotor.setPower(-0.33*slideY);
+                    } else {
+                        slideMotor.setPower(0);
+                    }
+                } else {
+                    if (slideY > 0.25) {
+                        slideMotor.setPower(-0.4* slideY);
+                    } else if (slideY < 0.25) {
+                        slideMotor.setPower(-0.33 * slideY);
+                    } else {
+                        slideMotor.setPower(0);
+                    }
+                }
+
             } else {
-                if (Math.abs(slideY) > 0.25) {
+                if ((slideY) > 0.25) {
+                    slideMotor.setPower(-0.45 * slideY);
+                } else if (slideY < 0.25) {
                     slideMotor.setPower(-0.33*slideY);
                 } else {
                     slideMotor.setPower(0);

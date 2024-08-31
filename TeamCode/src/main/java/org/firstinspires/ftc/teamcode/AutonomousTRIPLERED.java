@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystems.ArmController;
+import org.firstinspires.ftc.teamcode.subsystems.CameraController;
+import org.firstinspires.ftc.teamcode.subsystems.IMUController;
 import org.firstinspires.ftc.teamcode.subsystems.LinearSlides;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystems.IMUController;
-import org.firstinspires.ftc.teamcode.subsystems.CameraController;
 
-@Autonomous(name="Triple Glazed #1 Auto")
-public class AutonomousTRIPLE extends LinearOpMode {
+@Autonomous(name="Triple Glazed #1 Auto Red")
+public class AutonomousTRIPLERED extends LinearOpMode {
 
     double AprilTag;
 
@@ -59,61 +59,17 @@ public class AutonomousTRIPLE extends LinearOpMode {
         IMUController.resetIMU();
 
         MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(125,0.4));
+        while (MecanumDrive.moveDistance(135,0.4));
 
         sleep(1000);
 
         MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.strafeDistance(70,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(-75,0.4));
+        while (MecanumDrive.strafeDistance(58,0.4));
 
         sleep(1000);
 
         MecanumDrive.resetMecanumEncoder();
         while (MecanumDrive.moveDistance(75,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.strafeDistance(70,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(-75,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(75,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.strafeDistance(70,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(-75,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(75,0.4));
-
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.strafeDistance(40,0.4));
-        sleep(1000);
-
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(150,0.4));
 
 
 

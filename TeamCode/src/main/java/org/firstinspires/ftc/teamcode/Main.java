@@ -28,7 +28,7 @@ public class  Main extends LinearOpMode {
     @Override
     public void runOpMode() {
         //webcamOne = new CameraController(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        //ControllerIMU.initIMU(hardwareMap.get(IMU.class,"imu"), 90);
+        IMUController.initIMU(hardwareMap.get(IMU.class,"imu"), 0);
 
         LinearSlides.initialiseSlide(hardwareMap.get(DcMotor.class,"L1"));
 
@@ -58,9 +58,17 @@ public class  Main extends LinearOpMode {
             //ControllerIMU.getAdjustedHeading();
             //LinearSlides.resetEncoder(gamepad1.right_bumper);
 
+            double slidePower;
+            if (gamepad1.left_bumper) {
+                slidePower = -1;
+            } else if (gamepad1.right_bumper) {
+                slidePower = 1;
+            } else {
+                slidePower = 0;
+            }
 
             MecanumDrive.runMotors(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x, gamepad1.x, gamepad1.y);
-            LinearSlides.setActive(gamepad1.left_bumper, -gamepad1.right_stick_y);
+            LinearSlides.setActive(false, slidePower);
             ArmController.armSuck(gamepad1.a,gamepad1.b);
 
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
