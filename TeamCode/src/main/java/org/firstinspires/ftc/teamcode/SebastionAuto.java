@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.subsystems.IMUController;
 import org.firstinspires.ftc.teamcode.subsystems.LinearSlides;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDrive;
 
-@Autonomous(name="Triple Glazed #1 Auto Red")
-public class AutonomousTRIPLERED extends LinearOpMode {
+@Autonomous(name="Sebs auto")
+public class SebastionAuto extends LinearOpMode {
 
     double AprilTag;
 
@@ -59,17 +59,30 @@ public class AutonomousTRIPLERED extends LinearOpMode {
         IMUController.resetIMU();
 
         MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(135,0.4));
+        while (MecanumDrive.moveDistance(70,0.4)) {
+            ArmController.armSuck();
+        };
+        ArmController.armStop();
+
+        sleep(1000);
+
+        IMUController.resetIMU();
+        while (MecanumDrive.rotate(86,IMUController.getTrueHeading(),0.4));
 
         sleep(1000);
 
         MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.strafeDistance(58,-0.4));
+        while (MecanumDrive.moveDistance(60*(AprilTag+1),0.4));
 
         sleep(1000);
 
-        MecanumDrive.resetMecanumEncoder();
-        while (MecanumDrive.moveDistance(122,0.4));
+        IMUController.resetIMU();
+        while (MecanumDrive.rotate(-86,IMUController.getTrueHeading(),0.4));
+
+        sleep(500);
+
+
+
 
 
 

@@ -30,4 +30,14 @@ public class ArmController {
         leftServo.setPower(-1);
         rightServo.setPower(1);
     }
+
+    public static void armSuck() {
+        leftServo.setPower(1);
+        rightServo.setPower(-1);
+    }
+
+    public static void armStop() {
+        leftServo.setPower(0);
+        rightServo.setPower(0);
+    }
 }

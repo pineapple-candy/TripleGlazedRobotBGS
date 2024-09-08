@@ -47,9 +47,9 @@ public class CameraController {
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            if ((detection.metadata != null) && aprilTags.containsKey(detection.id)) {
+            if ((detection.metadata != null)) {
 
-                int aprilTagNum = aprilTags.get(detection.id); // april tag one
+                int aprilTagNum = detection.id; // april tag one
                 lastSeen = aprilTagNum;
 
                 return aprilTagNum;

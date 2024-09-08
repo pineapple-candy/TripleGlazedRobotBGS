@@ -49,7 +49,7 @@ public class  Main extends LinearOpMode {
 
         waitForStart();
 
-        //ControllerIMU.resetIMU();
+        IMUController.resetIMU();
         LinearSlides.resetEncoder();
         MecanumDrive.resetMecanumEncoder();
 
@@ -74,6 +74,7 @@ public class  Main extends LinearOpMode {
             telemetry.addLine("Gamepad values:" + gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
             telemetry.addLine(LinearSlides.getDebug());
             telemetry.addLine(MecanumDrive.getDebug());
+            telemetry.addLine("IMU Value: " +IMUController.getTrueHeading());
             telemetry.update();
         }
 

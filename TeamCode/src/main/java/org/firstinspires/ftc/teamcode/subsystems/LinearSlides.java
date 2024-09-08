@@ -44,7 +44,7 @@ public class LinearSlides {
         double encoderPosition = slideMotor.getCurrentPosition();
 
         if (target) {
-            setTarget(-840); // BOTTOM < initialise
+            setTarget(-860); // BOTTOM < initialise
             updateSlide();
         } else {
             if (encoderPosition > 20) {
